@@ -14,6 +14,6 @@ type User struct {
 	Passport string      `json:"passport" description:"User Passport"`
 	Password string      `json:"password" description:"User Password"`
 	Nickname string      `json:"nickname" description:"User Nickname"`
-	CreateAt *gtime.Time `json:"createAt" description:"Created Time"`
+	CreateAt *gtime.Time `json:"create_at" description:"Created Time"`
 	UpdateAt *gtime.Time `json:"updateAt" description:"Updated Time"`
 }

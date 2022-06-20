@@ -65,3 +65,12 @@ type UserDeleteReq struct {
 }
 type UserDeleteRes struct {
 }
+
+type UserUpdateReq struct {
+	g.Meta   `path:"/user/update" method:"POST" tags:"UserService" summary:"user delete"`
+	Id       string `v:"required"`
+	Passport string `v:"required"`
+	Nickname string `v:"required"`
+}
+type UserUpdateRes struct {
+}

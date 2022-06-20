@@ -84,13 +84,29 @@ func (c *cUser) UserList(ctx context.Context, req *v1.UserListReq) (res *v1.User
 }
 
 func (c *cUser) UserDelete(ctx context.Context, req *v1.UserDeleteReq) (res *v1.UserDeleteRes, err error) {
-	delete, err := service.User().UserDelete(ctx, req.Passport)
+	tes, err := service.User().UserDelete(ctx, req.Passport)
 	if err != nil {
 		return nil, err
 	}
-	//判断是犯错误的
-	if !delete {
+	//???有问题
+	if !tes {
 		return nil, gerror.Newf(`Passport "%s" is no exist`, req.Passport)
+	}
+	return
+}
+
+func (c *cUser) UserUpdate(ctx context.Context, req *v1.UserUpdateReq) (res *v1.UserUpdateRes, err error) {
+	tes, err := service.User().UserUpdate(ctx, model.UserUpdateInput{
+		Id:       req.Id,
+		Passport: req.Passport,
+		Nickname: req.Nickname,
+	})
+	if err != nil {
+		return nil, err
+	}
+	//???有问题
+	if !tes {
+		return nil, gerror.Newf(`Id "%s" is no exist`, req.Passport)
 	}
 	return
 }

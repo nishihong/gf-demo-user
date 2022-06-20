@@ -144,11 +144,23 @@ func (s *sUser) GetList(ctx context.Context) (list []*entity.User) {
 	return list
 }
 
-// IsNicknameAvailable checks and returns given nickname is available for signing up.
 func (s *sUser) UserDelete(ctx context.Context, passport string) (bool, error) {
 	_, err := dao.User.Ctx(ctx).Where(do.User{
 		Passport: passport,
 	}).Delete()
+	if err != nil {
+		return false, err
+	}
+	return true, nil
+}
+
+func (s *sUser) UserUpdate(ctx context.Context, in model.UserUpdateInput) (bool, error) {
+	_, err := dao.User.Ctx(ctx).Where(do.User{
+		Id: in.Id,
+	}).Update(do.User{
+		Passport: in.Passport,
+		Nickname: in.Nickname,
+	})
 	if err != nil {
 		return false, err
 	}
