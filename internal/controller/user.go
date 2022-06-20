@@ -3,7 +3,8 @@ package controller
 import (
 	"context"
 
-	"github.com/gogf/gf-demo-user/v2/api/v1"
+	v1 "github.com/gogf/gf-demo-user/v2/api/v1"
+
 	"github.com/gogf/gf-demo-user/v2/internal/model"
 	"github.com/gogf/gf-demo-user/v2/internal/service"
 	"github.com/gogf/gf/v2/errors/gerror"
@@ -66,6 +67,30 @@ func (c *cUser) CheckNickName(ctx context.Context, req *v1.UserCheckNickNameReq)
 func (c *cUser) Profile(ctx context.Context, req *v1.UserProfileReq) (res *v1.UserProfileRes, err error) {
 	res = &v1.UserProfileRes{
 		User: service.User().GetProfile(ctx),
+	}
+	return
+}
+
+//func (c *cUser) UserList(ctx context.Context, req *v1.UserListReq) (res []*entity.User, err error) {
+//	res = service.User().GetList(ctx)
+//	return
+//}
+
+func (c *cUser) UserList(ctx context.Context, req *v1.UserListReq) (res *v1.UserListRes, err error) {
+	res = &v1.UserListRes{
+		List: service.User().GetList(ctx),
+	}
+	return
+}
+
+func (c *cUser) UserDelete(ctx context.Context, req *v1.UserDeleteReq) (res *v1.UserDeleteRes, err error) {
+	delete, err := service.User().UserDelete(ctx, req.Passport)
+	if err != nil {
+		return nil, err
+	}
+	//判断是犯错误的
+	if !delete {
+		return nil, gerror.Newf(`Passport "%s" is no exist`, req.Passport)
 	}
 	return
 }

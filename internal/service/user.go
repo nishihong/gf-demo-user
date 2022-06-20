@@ -124,3 +124,33 @@ func (s *sUser) IsNicknameAvailable(ctx context.Context, nickname string) (bool,
 func (s *sUser) GetProfile(ctx context.Context) *entity.User {
 	return Session().GetUser(ctx)
 }
+
+//  @Title  获取列表
+//  @Description
+//  @Param   ctx
+//  @Return  res
+//
+func (s *sUser) GetList(ctx context.Context) (list []*entity.User) {
+
+	mod := dao.User.Ctx(ctx)
+
+	err := mod.Order("id asc").Scan(&list)
+	if err != nil {
+		err = gerror.Newf(`ErrorORM`)
+
+		return nil
+	}
+
+	return list
+}
+
+// IsNicknameAvailable checks and returns given nickname is available for signing up.
+func (s *sUser) UserDelete(ctx context.Context, passport string) (bool, error) {
+	_, err := dao.User.Ctx(ctx).Where(do.User{
+		Passport: passport,
+	}).Delete()
+	if err != nil {
+		return false, err
+	}
+	return true, nil
+}

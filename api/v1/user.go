@@ -55,4 +55,13 @@ type UserSignOutRes struct{}
 type UserListReq struct {
 	g.Meta `path:"/user/list" method:"get" tags:"UserService" summary:"user list"`
 }
-type UserListRes struct{}
+type UserListRes struct {
+	List []*entity.User `json:"list"   dc:"数据列表"`
+}
+
+type UserDeleteReq struct {
+	g.Meta   `path:"/user/delete" method:"delete" tags:"UserService" summary:"user delete"`
+	Passport string `v:"required"`
+}
+type UserDeleteRes struct {
+}
